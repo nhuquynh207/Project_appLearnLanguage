@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="header">
+            <h3 id="titleApp">VocabApp</h3>
+            <div id="buttonElement">
+                <a href="./login.html" id="btn_login" class="btn_blue">Login</a>
+                <a href="./register.html" id="btn_register" class="btn_green">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="InputForm">
+        <form id="registerForm" class="form">
+            <h3>Register</h3>
+
+            <div class="formCard">
+
+                <div class="form_item">
+                    <label for="">First Name</label>
+                    <input type="text" id="input_firstNameRegister" required>
+                </div>
+
+                <div class="form_item">
+                    <label for="">Last Name</label>
+                    <input type="text" id="input_lastNameRegister" required>
+                    
+                </div>
+
+                <div class="form_item">
+                    <label for="">Email</label>
+                    <input type="email" id="input_emailRegister" required>
+                    <small id="emailError" class="error"></small>
+                </div>
+
+                <div class="form_item">
+                    <label for="">Password</label>
+                    <input type="password" id="input_passwordRegister" required>
+                    <small id="passwordError" class="error"></small>
+                </div>
+
+                <div class="form_item">
+                    <label for="">Confirm password</label>
+                    <input type="password" id="input_rePasswordRegister" required>
+                    <small id="rePasswordError" class="error"></small>
+                </div>
+    
+                <button id="Register_btn" class="btn_green">Register</button>
+
+            </div>
+        </form>
+
+    </section>
+    <script src="../JS/register.js"></script>
+</body>
+</html>
