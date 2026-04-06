@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <div id="header">
+            
+            <div class="menu">
+                <a id="titleApp" href="./index.html">VocabApp</a>
+                <a href="">Dashboard</a>
+                <a href="./categories.html" class="currentPage">Categories</a>
+                <a href="./wordPage.html">Vocabulary</a>
+                <a href="./flashCar.html">Flashcards</a>
+                <a href="./quiz.html">Quiz</a>
+            </div>
+
+            <div>
+                <button id="btn_logout">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="body_category">
+        <div class="content">
+            <h2>Vocabulary Categories</h2>
+            <button id="btn_addNewCategory" class="btn-open">Add New Category</button>
+        </div>
+        <input type="text" placeholder="Search categories..." id="inputSearchCate">
+        <div class="table_wrapper">
+            <table class="table_category">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>DESCRIPTION</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+            <tbody id="list_catagory">
+                
+            </tbody>
+            </table>
+            <div id="pagination">
+                <!-- thanh phân trang -->
+            </div>
+        </div>
+    </section>
+    <!-- pop up thêm loại mới -->
+       <div id="popUpNewCategory" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+
+            <div class="popUpItem">
+                <span>Add New Category</span>
+                <button id="close_add" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <label for="inputNewCategory">Word</label>
+                <input type="text" id="inputNewCategory">
+            </div>
+            <div class="popUpItem">
+                <label for="inputDescripton">Description</label>
+                <textarea id="inputDescripton"></textarea>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelAdd" class="btn_cancel">Cancel</button>
+                <button id="btn_save" class="btn_confirmItem">Add</button>
+            </div>
+        </div>
+    </div>
+<!-- chỉnh sửa -->
+    <div id="popUpEdit" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+            <div class="popUpItem">
+                <span>Edit Catagory</span>
+                <button id="close_edit" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <label for="editInputCategory">Name</label>
+                <input type="text" id="editInputCategory">
+            </div>
+            <div class="popUpItem">
+                <label for="editInputMeaning">Description</label>
+                <textarea id="editInputDecription"></textarea>
+            </div>
+        
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelEditCategory" class="btn_cancel">Cancel</button>
+                <button id="btn_saveEditCategory" class="btn_confirmItem">Save</button>
+            </div>
+        </div>
+    </div>
+
+      <!-- pop up xóa từ vựng -->
+    <div id="popUpDeleteCategory" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+            <div class="popUpItem">
+                <p><strong>Delete Category</strong></p>
+                <button id="close_delete" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <p>Are you sure you want to delete this category?</p>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelDeleteCategory" class="btn_cancel">Cancel</button>
+                <button id="btn_ConfirmDeleteCategory" class="btn_confirmItemDelete">Delete</button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="textFooter">© 2024 VocabApp. All rights reserved.</p>
+    </footer>
+
+    <script src="../JS/categories.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+        <header>
+        <div id="header">
+            
+            <div class="menu">
+                <a id="titleApp" href="./index.html">VocabApp</a>
+                <a href="">Dashboard</a>
+                <a href="./categories.html" >Categories</a>
+                <a href="./wordPage.html" class="currentPage">Vocabulary</a>
+                <a href="./flashCar.html">Flashcards</a>
+                <a href="./quiz.html">Quiz</a>
+            </div>
+
+            <div>
+                <button id="btn_logout">Logout</button>
+            </div>
+        </div>
+    </header>
+    <section class="body_category">
+        <div class="content">
+            <h2>Vocabulary Words</h2>
+            <span>
+                <button id="btn_addNewWord" class="btn-open">Add New Word</button>
+            </span>
+        </div>
+
+        <div class="toolbar">
+            <div>
+                <select name="categories" id="list_categories">
+                    <option value="AllCategory">All Categories</option>
+                    <option value="animal">Animal</option>
+                    <option value="plant">Plant</option>
+                </select>
+            </div>
+            <br>
+            <input type="text" placeholder="Search vocabulary..." id="inputSearchCate">
+        </div>
+
+        <div class="table_wrapper">
+            <table class="table_category">
+                <thead>
+                    <tr>
+                        <th>WORD</th>
+                        <th>MEANING</th>
+                        <th>CATEGORY</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="list_word">
+                    <!-- <tr>
+                        <td>Cat</td>
+                        <td>mèo</td>
+                        <td>Con vật</td>
+                        <td class="buttonAction">
+                            <button class="btn-open" id="btn_editWord" style="color: #4e73df;">Edit</button>
+                            <button class="btn-open" id="btn_deleteWord" style="color: #e74a3b;">Delete</button>
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+<!-- pop up thêm từ mới -->
+    <div id="popUpNewWord" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+
+            <div class="popUpItem">
+                <span>Add New Word</span>
+                <button id="close_add" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <label for="inputNewWord">Word</label>
+                <input type="text" id="inputNewWord">
+            </div>
+            <div class="popUpItem">
+                <label for="inputMeaningWord">Meaning</label>
+                <textarea id="inputMeaningWord"></textarea>
+            </div>
+            <div class="popUpItem">
+                <label for="selectNewCategory">Category</label>
+                <input id="selectCategory">
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelAddNewWord" class="btn_cancel">Cancel</button>
+                <button id="btn_saveNewWord" class="btn_confirmItem">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- pop up chỉnh sửa từ -->
+    <div id="popUpEdit" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+            <div class="popUpItem">
+                <span>Edit Word</span>
+                <button id="close_edit" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <label for="editInputWord">Word</label>
+                <input type="text" id="editInputWord">
+            </div>
+            <div class="popUpItem">
+                <label for="editInputMeaning">Meaning</label>
+                <textarea id="editInputMeaning"></textarea>
+            </div>
+            <div class="popUpItem">
+                <label for="editInputCategory">Category</label>
+                <select id="editInputCategory">
+                    <option value="AllCategory">Select Category</option>
+                    <option value="animal">Animal</option>
+                    <option value="plant">Plant</option>
+                </select>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelEditWord" class="btn_cancel">Cancel</button>
+                <button id="btn_saveEditWord" class="btn_confirmItem">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- pop up xóa từ vựng -->
+    <div id="popUpDeleteWord" style="display: none;" class="popUpStyle">
+        <div class="modal_box">
+            <div class="popUpItem">
+                <p><strong>Delete Word</strong></p>
+                <button id="close_delete" class="btn-close">X</button>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <p>Are you sure you want to delete this word?</p>
+            </div>
+            <hr>
+            <div class="popUpItem">
+                <button id="btn_cancelDeleteWord" class="btn_cancel">Cancel</button>
+                <button id="btn_ConfirmDeleteWord" class="btn_confirmItemDelete">Delete</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../JS/wordPage.js"></script>
+</body>
+</html>

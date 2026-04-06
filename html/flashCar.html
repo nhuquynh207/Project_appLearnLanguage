@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/flashcard.css">
+</head>
+<body>
+    <header>
+        <div id="header">
+            
+            <div class="menu">
+                <a id="titleApp" href="./index.html">VocabApp</a>
+                <a href="">Dashboard</a>
+                <a href="./categories.html" >Categories</a>
+                <a href="./wordPage.html">Vocabulary</a>
+                <a href="./flashCar.html" class="currentPage">Flashcards</a>
+                <a href="./quiz.html" >Quiz</a>
+            </div>
+
+            <div>
+                <button id="btn_logout">Logout</button>
+            </div>
+        </div>
+    </header>
+
+      <div class="container">
+    <h1>Flashcard Learning</h1>
+
+    <input class="filter" type="text" placeholder="All Categories">
+
+    <div class="card">
+      No words available
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-blue">Previous</button>
+      <button class="btn btn-green">Mark as Learned</button>
+      <button class="btn btn-blue">Next</button>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-text">
+        <span>Progress</span>
+        <span>0/0</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress"></div>
+      </div>
+    </div>
+
+    <div class="word-list">
+      <h3>Word List</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Meaning</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2024 VocabApp. All rights reserved.
+  </footer>
+</body>
+</html>
