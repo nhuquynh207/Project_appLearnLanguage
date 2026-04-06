@@ -2,10 +2,10 @@ let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
 
 let btnLogout = document.getElementById("btn_logout");
 let btnRegister = document.getElementById("btn_createAccount");
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 
 btnLogout.addEventListener("click", () => {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
         
         if (confirm(`Bạn có chắc muốn đăng xuất không ?`)) {
             localStorage.removeItem("currentUser");

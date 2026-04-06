@@ -1,4 +1,7 @@
+let listCatagory = JSON.parse(localStorage.getItem("listCatagory")) ;
 let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
 
 let btnLogout = document.getElementById("btn_logout");
 
@@ -43,10 +46,19 @@ btn_closePopUp.forEach(btn => {
 
 // Cancel
 document.getElementById("btn_cancelAddNewWord").onclick = () => {
+    errorAdd_v1.innerText = "";
+    errorAdd_v2.innerText = "";
+    errorAdd_v3.innerText = "";
+    inputNewWord.value = "";
+    inputMeaningWord.value = "";
     document.getElementById("popUpNewWord").style.display = "none";
 };
 
 document.getElementById("btn_cancelEditWord").onclick = () => {
+    
+    errorEdit_v1.innerText="";
+    errorEdit_v2.innerText="";
+    errorEdit_v3.innerText="";
     document.getElementById("popUpEdit").style.display = "none";
 };
 
@@ -138,13 +150,54 @@ let inputNewWord = document.getElementById("inputNewWord");
 let inputMeaningWord = document.getElementById("inputMeaningWord");
 let catagoryWord = document.getElementById("selectCategory");
 let btn_confirmAdd = document.getElementById("btn_saveNewWord");
+let select  = document.getElementById("editInputCategory");
+
+const renderOptionAdd = () =>{
+    catagoryWord.innerHTML = `<option value="AllCategory">-- Tất cả --</option> `;
+    
+    listCatagory.forEach(c =>{
+        let option = document.createElement("option");
+        option.value = c.name;
+        option.innerText = c.name;
+        catagoryWord.appendChild(option);
+    });
+
+};
+
+renderOptionAdd();
+
+let errorAdd_v1 = document.getElementById("InputwordAdd");
+let errorAdd_v2 = document.getElementById("InputMeaningAdd");
+let errorAdd_v3 = document.getElementById("selectAdd");
+
 
 btn_confirmAdd.addEventListener("click", () => {
     let wordNew = inputNewWord.value.trim();
     let meaning = inputMeaningWord.value.trim();
 
-    if (!wordNew || !meaning) return;
+    errorAdd_v1.innerText = ""
+    errorAdd_v2.innerText = ""
+    errorAdd_v3.innerText = ""
 
+
+    let isValid = true;
+
+    if (!wordNew) {
+        errorAdd_v1.innerText = "Không được để trống";
+        isValid = false;
+    }
+
+    if (!meaning) {
+        errorAdd_v2.innerText = "Không được để trống";
+        isValid = false;
+    }
+
+    if (catagoryWord.value === "AllCategory") {
+        errorAdd_v3.innerText = "Phải chọn danh mục";
+        isValid = false;
+    };
+
+    if (!isValid) return;
     let newWord = {
         id: Date.now().toString(),
         word: wordNew,
@@ -182,9 +235,38 @@ btn_confirmDelete.addEventListener("click", () => {
 // chỉnh sửa
 
 let btn_editConfirm = document.getElementById("btn_saveEditWord");
+let errorEdit_v1 = document.getElementById("InputwordEdit");
+let errorEdit_v2 = document.getElementById("InputMeaningEdit");
+let errorEdit_v3 = document.getElementById("selectEdit");
+
 
 btn_editConfirm.addEventListener("click", () => {
     let index = words.findIndex(w => w.id === indexWord);
+
+    errorEdit_v1.innerText="";
+    errorEdit_v2.innerText="";
+    errorEdit_v3.innerText="";
+
+    let check = true;
+
+    if (!inputEditWord.value.trim()) {
+        errorEdit_v1.innerText= "Không được để trống";
+        check=false;
+    };
+
+    if (!inputEditMeaning.value.trim()) {
+        errorEdit_v2.innerText= "Không được để trống";
+        check=false;
+    }
+
+    if ( !inputEditCategory.value) {
+        errorEdit_v3.innerText = "Phải chọn danh mục!"
+        check=false;
+    };
+
+    if (!check) {
+        return;
+    }
 
     if (index !== -1) {
         words[index] = {
@@ -199,6 +281,13 @@ btn_editConfirm.addEventListener("click", () => {
     }
 
     document.getElementById("popUpEdit").style.display = "none";
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+    });
 });
 //lọc
 
@@ -210,7 +299,7 @@ searchByCatagories.addEventListener("change", () => {
     if (type === "AllCategory") {
         renderData(words);
     } else {
-        let result = words.filter(w => w.categoryId === type);
+        let result = words.filter(w => w.categoryId == type);
         renderData(result);
     }
 });
@@ -230,13 +319,31 @@ inputSearchVocab.addEventListener("keyup", () => {
     renderData(result);
 });
 
-// const renderOption = () =>{
-//     searchByCatagories.innerHTML="";
-//     words.forEach(w =>{
-//         let option = document.createElement("option");
-//         option.innerText=`${w.categoryId}`;
-//         searchByCatagories.appendChild(option);
-//     });
-// };
 
-// renderOption();
+const renderOption = () => {
+
+    searchByCatagories.innerHTML = `<option value="AllCategory">-- Tất cả --</option>`;
+
+    listCatagory.forEach(c => {
+        let option = document.createElement("option");
+        option.value = c.name;
+        option.innerText = c.name;
+        searchByCatagories.appendChild(option);
+    });
+};
+
+renderOption();
+
+const renderOptionEdit = () =>{
+    select.innerHTML = `<option value="AllCategory">-- Tất cả --</option> `;
+    
+    listCatagory.forEach(c =>{
+        let option = document.createElement("option");
+        option.value = c.name;
+        option.innerText = c.name;
+        select.appendChild(option);
+    });
+
+};
+
+renderOptionEdit();

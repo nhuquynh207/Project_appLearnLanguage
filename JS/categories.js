@@ -1,4 +1,11 @@
 let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+let inputNew = document.getElementById("inputNewCategory");
+let inputNewDescription = document.getElementById("inputDescripton");
+let btn_Add = document.getElementById("btn_save");
+let errorAdd_v1 = document.getElementById("errorNewCate");
+let errorAdd_v2 = document.getElementById("errorDes");
 
 // logout
 let btnLogout = document.getElementById("btn_logout");
@@ -13,8 +20,8 @@ btnLogout.addEventListener("click", () => {
 
 // data mặc định
 let categories = [
-    { id: "1", name: "Con vật", description: "Các từ vựng liên quan đến động vật" },
-    { id: "2", name: "Cây cối", description: "Các từ vựng về thực vật và cây cối" }
+    { id: "1", name: "animal", description: "Các từ vựng liên quan đến động vật" },
+    { id: "2", name: "plant", description: "Các từ vựng về thực vật và cây cối" }
 ];
 
 let currentList =categories;
@@ -104,11 +111,15 @@ btn_closePopUp.forEach(btn => {
 
 // cancel add
 document.getElementById("btn_cancelAdd").onclick = () => {
+    errorAdd_v1.innerText = "";
+    errorAdd_v2.innerText = "";
     document.getElementById("popUpNewCategory").style.display = "none";
 };
 
 // cancel edit
 document.getElementById("btn_cancelEditCategory").onclick = () => {
+    errorEdit_v1.innerText = "";
+    errorEdit_v2.innerText = "";
     document.getElementById("popUpEdit").style.display = "none";
 };
 
@@ -201,10 +212,27 @@ document.getElementById("btn_ConfirmDeleteCategory").addEventListener("click", (
 let btn_confirmSave = document.getElementById("btn_saveEditCategory");
 let inputEdit = document.getElementById("editInputCategory");
 let inputDescription = document.getElementById("editInputDecription");
-
+let errorEdit_v1 = document.getElementById("errorEditCate");
+let errorEdit_v2 = document.getElementById("errorDesEdit");
 btn_confirmSave.addEventListener("click", () => {
     let index = categories.findIndex(c => c.id === currentId);
     
+    errorEdit_v1.innerText="";
+    errorEdit_v2.innerText = "";
+    let check=true;
+
+    if (!inputEdit.value.trim()) {
+        errorEdit_v1.innerText="Không được để trống";
+        check=false;
+    };
+
+    if (!inputDescription.value.trim()) {
+        errorEdit_v2.innerText = "Không được để trống";
+        check = false;
+    };
+
+    if (!check) return;
+
     if (index === -1) return;
     
     categories[index] = {
@@ -234,16 +262,26 @@ inputSearchCate.addEventListener("keyup", () => {
 });
 
 // add new
-let inputNew = document.getElementById("inputNewCategory");
-let inputNewDescription = document.getElementById("inputDescripton");
-let btn_Add = document.getElementById("btn_save");
 
 btn_Add.addEventListener("click", () => {
     
-    if (!inputNew.value.trim() || !inputNewDescription.value.trim()) {
-        alert("Không được để trống");
+    errorAdd_v1.innerText = "";
+    errorAdd_v2.innerText ="";
+
+    let check=true;
+    if (!inputNew.value.trim()){
+        errorAdd_v1.innerText = "Không được để trống";
+        check=false;
+    } 
+    if (!inputNewDescription.value.trim()) {
+        errorAdd_v2.innerText = "Không được để trống";
+        check=false
+    };
+
+    if (!check) {
         return;
     }
+        
     
     let newCategory = {
         id: Date.now().toString(),

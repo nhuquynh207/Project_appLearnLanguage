@@ -35,9 +35,9 @@
         <div class="toolbar">
             <div>
                 <select name="categories" id="list_categories">
-                    <option value="AllCategory">All Categories</option>
+                    <!-- <option value="AllCategory">All Categories</option>
                     <option value="animal">Animal</option>
-                    <option value="plant">Plant</option>
+                    <option value="plant">Plant</option> -->
                 </select>
             </div>
             <br>
@@ -81,14 +81,22 @@
             <div class="popUpItem">
                 <label for="inputNewWord">Word</label>
                 <input type="text" id="inputNewWord">
+                <br><br>
+                <small id="InputwordAdd" class="error"></small>
             </div>
             <div class="popUpItem">
                 <label for="inputMeaningWord">Meaning</label>
                 <textarea id="inputMeaningWord"></textarea>
+                <br><br>
+                <small id="InputMeaningAdd" class="error"></small>
             </div>
             <div class="popUpItem">
                 <label for="selectNewCategory">Category</label>
-                <input id="selectCategory">
+                <select id="selectCategory">
+
+                </select>
+                <br><br>
+                <small id="selectAdd" class="error"></small>
             </div>
             <hr>
             <div class="popUpItem">
@@ -109,18 +117,20 @@
             <div class="popUpItem">
                 <label for="editInputWord">Word</label>
                 <input type="text" id="editInputWord">
+                
+                <small id="InputwordEdit" class="error"></small>
             </div>
             <div class="popUpItem">
                 <label for="editInputMeaning">Meaning</label>
                 <textarea id="editInputMeaning"></textarea>
+                <small id="InputMeaningEdit" class="error"></small>
             </div>
             <div class="popUpItem">
                 <label for="editInputCategory">Category</label>
                 <select id="editInputCategory">
-                    <option value="AllCategory">Select Category</option>
-                    <option value="animal">Animal</option>
-                    <option value="plant">Plant</option>
+
                 </select>
+                <small id="selectEdit" class="error"></small>
             </div>
             <hr>
             <div class="popUpItem">
@@ -151,5 +161,6 @@
     </div>
 
     <script src="../JS/wordPage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
