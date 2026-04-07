@@ -63,21 +63,22 @@ let userData = getDataByUser();
 if (userData.length === 0) {
     userData = [
         { id: "1", name: "animal", description: "Các từ vựng liên quan đến động vật" },
-        { id: "2", name: "plant", description: "Các từ vựng về thực vật và cây cối" }
+        { id: "2", name: "plant", description: "Các từ vựng về thực vật và cây cối" },
+        { id: "3", name: "food", description: "Các từ vựng về đồ ăn và thực phẩm" }
     ];
     saveDataForUser(userData);
 }
 
 let categories = userData.slice();
-// copy toàn bộ phần tử của mảng userData sang mảng mới
+
 
 let currentList =categories;
 let pageSize = 2; 
 let currentPage=1;
 let pagination = document.getElementById("pagination");
 
-let getDataByPage = (data) => { //lấy dữ liệu của mảng theo trang hiwenj tại
-    let start = (currentPage - 1) * pageSize; //vị trí bắt đầu lấy dữ liệu
+let getDataByPage = (data) => { 
+    let start = (currentPage - 1) * pageSize; 
     let end = start + pageSize;
     return data.slice(start, end);
 };

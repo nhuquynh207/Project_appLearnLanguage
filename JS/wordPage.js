@@ -39,7 +39,21 @@ if (userData.length === 0) {
             meaning: "chó",
             categoryId: "1",
             example: "My dog loves playing in the park."
-        }
+        },
+        {
+            id: "3",
+            word: "Apple",
+            meaning: "quả táo",
+            categoryId: "3", 
+            example: "I eat an apple every morning for breakfast."
+        },
+        {
+            id: "4",
+            word: "Lion",
+            meaning: "sư tử",
+            categoryId: "1", 
+            example: "The lion is known as the king of the jungle."
+        },
     ];
     saveDataForUser(userData);
 }
