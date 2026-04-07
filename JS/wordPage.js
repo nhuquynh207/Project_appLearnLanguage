@@ -30,14 +30,14 @@ if (userData.length === 0) {
             id: "1",
             word: "Cat",
             meaning: "mèo",
-            categoryId: "animal",
+            categoryId: "1",
             example: "The cat is sleeping on the sofa."
         },
         {
             id: "2",
             word: "Dog",
             meaning: "chó",
-            categoryId: "animal",
+            categoryId: "1",
             example: "My dog loves playing in the park."
         }
     ];
@@ -45,21 +45,43 @@ if (userData.length === 0) {
 }
 
 
-let words = [...userData];
+let words = userData.slice();
 
 // logout
 let btnLogout = document.getElementById("btn_logout");
-
 btnLogout.addEventListener("click", () => {
     if (!currentUser) {
-        alert("Bạn cần đăng nhập!");
-        window.location.href = "./login.html";
+        Swal.fire({
+            icon: "warning",
+            title: "Bạn cần đăng nhập!",
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = "./login.html";
+        });
+        return;
     }
-    if (confirm("Bạn có chắc muốn đăng xuất không ?")) {
-        localStorage.removeItem("currentUser");
-        alert("Đăng xuất thành công!");
-        window.location.href = "./login.html"; 
-    }
+
+    Swal.fire({
+        title: "Bạn có chắc muốn đăng xuất?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Đăng xuất",
+        cancelButtonText: "Hủy"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem("currentUser");
+
+            Swal.fire({
+                icon: "success",
+                title: "Đăng xuất thành công!",
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "./login.html";
+            });
+        }
+    });
 });
 
 // popup
@@ -118,11 +140,12 @@ const renderData = (list) => {
     tableRenderData.innerHTML = "";
 
     list.forEach(w => {
+        let cate = listCatagory.find(c => c.id === w.categoryId);
         let tr = document.createElement("tr");
         tr.innerHTML = `
         <td>${w.word}</td>
         <td>${w.meaning}</td>
-        <td>${w.categoryId}</td>
+        <td>${cate ? cate.name : ""}</td>
         <td class="buttonAction">
             <button onclick="openEdit('${w.id}')" style="color: #4e73df;">Edit</button>
             <button onclick="openDelete('${w.id}')" style="color: #e74a3b;">Delete</button>
@@ -171,7 +194,7 @@ const renderOptionAdd = () =>{
     
     listCatagory.forEach(c =>{
         let option = document.createElement("option");
-        option.value = c.name;
+        option.value = c.id;
         option.innerText = c.name;
         catagoryWord.appendChild(option);
     });
@@ -221,20 +244,21 @@ btn_confirmAdd.addEventListener("click", () => {
     userData.push(newWord);
     saveDataForUser(userData);
 
-    words = [...userData];
+    words = userData.slice();
     renderData(words);
 
     Swal.fire({
         icon: "success",
         title: "Đã thêm mới!",
         timer: 1500,
-        
+        showConfirmButton: false
     });
 
     document.getElementById("popUpNewWord").style.display = "none";
 
     inputNewWord.value = "";
     inputMeaningWord.value = "";
+    searchByCatagories.value = "AllCategory";
 });
 
 // delete
@@ -247,16 +271,15 @@ btn_confirmDelete.addEventListener("click", () => {
         userData.splice(index, 1);
         saveDataForUser(userData);
 
-        words = [...userData];
+        words = userData.slice();
         renderData(words);
     }
 
     Swal.fire({
         icon: "success",
         title: "Đã xóa!",
-        text: "Danh mục đã được xóa thành công",
         timer: 1500,
-        
+        showConfirmButton: false
     });
 
     document.getElementById("popUpDeleteWord").style.display = "none";
@@ -294,16 +317,20 @@ btn_editConfirm.addEventListener("click", () => {
 
     if (!check) return;
 
+    
     if (index !== -1) {
+        let oldData = userData[index];
+
         userData[index] = {
-            ...userData[index],
-            word: inputEditWord.value,
-            meaning: inputEditMeaning.value,
-            categoryId: inputEditCategory.value
+            id: oldData.id,
+            word: inputEditWord.value.trim(),
+            meaning: inputEditMeaning.value.trim(),
+            categoryId: inputEditCategory.value,
+            example: "example"
         };
 
         saveDataForUser(userData);
-        words = [...userData];
+        words = userData.slice();
         renderData(words);
     };
 
@@ -311,7 +338,7 @@ btn_editConfirm.addEventListener("click", () => {
         icon: "success",
         title: "Cập nhật thành công!",
         timer: 1500,
-        
+        showConfirmButton: false
     });
 
     document.getElementById("popUpEdit").style.display = "none";
@@ -326,7 +353,7 @@ searchByCatagories.addEventListener("change", () => {
     if (type === "AllCategory") {
         renderData(words);
     } else {
-        let result = words.filter(w => w.categoryId == type);
+        let result = words.filter(w => w.categoryId === type);
         renderData(result);
     }
 });
@@ -351,7 +378,7 @@ const renderOption = () => {
 
     listCatagory.forEach(c => {
         let option = document.createElement("option");
-        option.value = c.name;
+        option.value = c.id;
         option.innerText = c.name;
         searchByCatagories.appendChild(option);
     });
@@ -360,10 +387,10 @@ const renderOption = () => {
 renderOption();
 
 const renderOptionEdit = () =>{
-    select.innerHTML = `<option value="AllCategory">-- All Category --</option>`;
+    select.innerHTML = ``;
     listCatagory.forEach(c =>{
         let option = document.createElement("option");
-        option.value = c.name;
+        option.value = c.id;
         option.innerText = c.name;
         select.appendChild(option);
     });

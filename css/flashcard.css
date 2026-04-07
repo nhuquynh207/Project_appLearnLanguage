@@ -177,3 +177,10 @@ footer {
   color: #777;
   font-size: 14px;
 }
+
+#searchcategories{
+  width: 100%;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 6px;
+}

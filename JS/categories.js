@@ -22,11 +22,38 @@ let errorAdd_v2 = document.getElementById("errorDes");
 // logout
 let btnLogout = document.getElementById("btn_logout");
 btnLogout.addEventListener("click", () => {
-    if (confirm("Bạn có chắc muốn đăng xuất không ?")) {
-        localStorage.removeItem("currentUser");
-        alert("Đăng xuất thành công!");
-        window.location.href = "./login.html";
+    if (!currentUser) {
+        Swal.fire({
+            icon: "warning",
+            title: "Bạn cần đăng nhập!",
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = "./login.html";
+        });
+        return;
     }
+
+    Swal.fire({
+        title: "Bạn có chắc muốn đăng xuất?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Đăng xuất",
+        cancelButtonText: "Hủy"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem("currentUser");
+
+            Swal.fire({
+                icon: "success",
+                title: "Đăng xuất thành công!",
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "./login.html";
+            });
+        }
+    });
 });
 
 
@@ -41,7 +68,7 @@ if (userData.length === 0) {
     saveDataForUser(userData);
 }
 
-let categories = [...userData];
+let categories = userData.slice();
 // copy toàn bộ phần tử của mảng userData sang mảng mới
 
 let currentList =categories;
@@ -135,8 +162,8 @@ document.getElementById("btn_cancelAdd").onclick = () => {
     errorAdd_v2.innerText = "";
     document.getElementById("popUpNewCategory").style.display = "none";
 };
-
 // cancel edit
+
 document.getElementById("btn_cancelEditCategory").onclick = () => {
     errorEdit_v1.innerText = "";
     errorEdit_v2.innerText = "";
@@ -213,7 +240,7 @@ document.getElementById("btn_ConfirmDeleteCategory").addEventListener("click", (
     }
     
     
-    categories = [...userData];
+    categories = userData.slice();
     currentList = categories;
     currentPage = 1;
     renderData(currentList);
@@ -224,6 +251,7 @@ document.getElementById("btn_ConfirmDeleteCategory").addEventListener("click", (
         title: "Đã xóa!",
         text: "Danh mục đã được xóa thành công",
         timer: 1500,
+        showConfirmButton: false
         
     });
 
@@ -231,11 +259,11 @@ document.getElementById("btn_ConfirmDeleteCategory").addEventListener("click", (
 });
 
 // save edit
+let errorEdit_v1 = document.getElementById("errorEditCate");
+let errorEdit_v2 = document.getElementById("errorDesEdit");
 let btn_confirmSave = document.getElementById("btn_saveEditCategory");
 let inputEdit = document.getElementById("editInputCategory");
 let inputDescription = document.getElementById("editInputDecription");
-let errorEdit_v1 = document.getElementById("errorEditCate");
-let errorEdit_v2 = document.getElementById("errorDesEdit");
 btn_confirmSave.addEventListener("click", () => {
     let index = userData.findIndex(c => c.id === currentId);
     
@@ -264,7 +292,7 @@ btn_confirmSave.addEventListener("click", () => {
     };
     
     saveDataForUser(userData)
-    categories = [...userData];
+    categories = userData.slice();
     currentList = categories;
     renderData(currentList);
 
@@ -272,6 +300,7 @@ btn_confirmSave.addEventListener("click", () => {
         icon: "success",
         title: "Cập nhật thành công!",
         timer: 1500,
+        showConfirmButton: false
         
     });
     document.getElementById("popUpEdit").style.display = "none";
@@ -322,14 +351,16 @@ btn_Add.addEventListener("click", () => {
     
     userData.push(newCategory);
     saveDataForUser(userData);
-    categories = [...userData];
+    categories = userData.slice();
     currentList = categories;
+    currentPage = 1;
     renderData(currentList);
 
     Swal.fire({
         icon: "success",
         title: "Đã thêm mới!",
         timer: 1500,
+        showConfirmButton: false
         
     });
     

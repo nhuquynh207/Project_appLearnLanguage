@@ -1,0 +1,182 @@
+/* RESET & CẤU TRÚC CHÍNH (CỦA BẠN) */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgba(243, 244, 246, 1);
+    font-family: 'Inter', sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
+    min-height: 100vh;
+}
+
+/* HEADER CỦA BẠN */
+header {
+    background-color: rgba(255, 255, 255, 1);
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0px 16px 48px 0px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 1440px;
+}
+
+#titleApp {
+    font-weight: 700;
+    font-size: 18.9px;
+    margin-right: 20px;
+}
+
+.menu {
+    display: flex;
+    gap: 25px; /* Tăng khoảng cách menu cho thoáng */
+    align-items: center;
+}
+
+.menu a {
+    text-decoration: none;
+    color: rgba(55, 65, 81, 1);
+    font-size: 16px;
+}
+
+.currentPage {
+    font-weight: 700;
+    color: rgba(59, 130, 246, 1) !important;
+}
+
+/* CÁC NÚT BẤM (DÙNG CHUNG) */
+.btn_green {
+    background-color: rgba(34, 197, 94, 1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn_blue {
+    background-color: rgba(59, 130, 246, 1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+
+#btn_logout {
+    background-color: rgb(212, 85, 75);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+/* NỘI DUNG QUIZ (KHÔNG FIX CỨNG CHIỀU DÀI) */
+.container {
+    width: 80%; /* Đồng bộ với header của bạn */
+    max-width: 1440px;
+    margin: 40px auto;
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.category-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    background: white;
+}
+
+/* Quiz Card */
+.quiz-card {
+    background: white;
+    padding: 60px; /* Rộng rãi cho desktop */
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.option {
+    padding: 20px;
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.option:hover {
+    background-color: #f8fafc;
+}
+
+/* Progress bar */
+.progress-bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    margin: 10px 0 30px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+/* History Table */
+.history-table {
+    background: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 15px 20px;
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.empty-row { height: 50px; }
+
+/* Utility */
+.hidden { display: none; }
+
+.footer {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    color: rgba(75, 85, 99, 1);
+}

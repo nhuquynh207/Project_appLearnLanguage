@@ -1,20 +1,43 @@
 let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
 
-let btnLogout = document.getElementById("btn_logout");
 let btnRegister = document.getElementById("btn_createAccount");
 let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+let btnLogout = document.getElementById("btn_logout");
 
 btnLogout.addEventListener("click", () => {
-        
-        if (confirm(`Bạn có chắc muốn đăng xuất không ?`)) {
+    if (!currentUser) {
+        Swal.fire({
+            icon: "warning",
+            title: "Bạn cần đăng nhập!",
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = "./login.html";
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: "Bạn có chắc muốn đăng xuất?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Đăng xuất",
+        cancelButtonText: "Hủy"
+    }).then((result) => {
+        if (result.isConfirmed) {
             localStorage.removeItem("currentUser");
-            alert("Đăng xuất thành công!");
 
-            window.location.href = "./login.html"; 
+            Swal.fire({
+                icon: "success",
+                title: "Đăng xuất thành công!",
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "./login.html";
+            });
         }
+    });
 });
-
 btnRegister.addEventListener("click", () => {
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 

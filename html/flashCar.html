@@ -28,16 +28,18 @@
       <div class="container">
     <h1>Flashcard Learning</h1>
 
-    <input class="filter" type="text" placeholder="All Categories">
+    <select id="searchcategories">
+
+    </select>
 
     <div class="card" id="cardWord">
       No words available
     </div>
 
     <div class="controls">
-      <button class="btn btn-blue">Previous</button>
+      <button class="btn btn-blue" id="btn_pre">Previous</button>
       <button class="btn btn-green" id="btnMark">Mark as Learned</button>
-      <button class="btn btn-blue">Next</button>
+      <button class="btn btn-blue" id="btn_next">Next</button>
     </div>
 
     <div class="progress-section">
@@ -72,5 +74,6 @@
   </footer>
 
   <script src="../JS/flashCard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

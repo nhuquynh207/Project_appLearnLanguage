@@ -1,52 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>VocabApp - Quiz</title>
+    <link rel="stylesheet" href="../css/quiz.css">
 </head>
 <body>
     <header>
         <div id="header">
-            
             <div class="menu">
                 <a id="titleApp" href="./index.html">VocabApp</a>
                 <a href="">Dashboard</a>
-                <a href="./categories.html" >Categories</a>
+                <a href="./categories.html">Categories</a>
                 <a href="./wordPage.html">Vocabulary</a>
                 <a href="./flashCar.html">Flashcards</a>
                 <a href="./quiz.html" class="currentPage">Quiz</a>
             </div>
-
             <div>
                 <button id="btn_logout">Logout</button>
             </div>
         </div>
     </header>
 
-    <section class="body_category">
-        <div class="content">
-            <h2>Vocabulary Quiz</h2>
-            <button id="btn_addNewCategory" class="btn-open">Start Quiz</button>
-        </div>
-        <div class="table_wrapper">
-            <table class="table_category">
-                <thead>
-                    <tr>
-                        <th>DATE</th>
-                        <th>CATEGORY</th>
-                        <th>SCORE</th>
-                    </tr>
-                </thead>
-            <tbody id="history">
-                
-            </tbody>
-            </table>
+    <main class="container">
+        <div class="quiz-header">
+            <h1>Vocabulary Quiz</h1>
+            <button id="start-btn" class="btn_green">Start Quiz</button>
         </div>
 
-     <footer class="footer">
-        <p >© 2024 VocabApp. All rights reserved.</p>
+        <select class="category-select">
+            <option>All Categories</option>
+            <option>Con vật</option>
+        </select>
+
+        <div id="quiz-content" class="hidden">
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span>Progress</span>
+                    <span>1/2</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%;"></div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h3>What is the meaning of "Dog"?</h3>
+                <div class="options">
+                    <div class="option">mèo</div>
+                    <div class="option">cún</div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn_blue">Previous</button>
+                <button class="btn_blue">Next</button>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h2>Quiz History</h2>
+            <div class="history-table">
+                <div class="table-header">
+                    <span>DATE</span>
+                    <span>CATEGORY</span>
+                    <span>SCORE</span>
+                </div>
+                <div class="empty-row"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        © 2024 VocabApp. All rights reserved.
     </footer>
+
+    <script src="../JS/quiz.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
