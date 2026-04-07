@@ -1,11 +1,23 @@
 let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
 let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+const saveDataForUser =(data)=>{
+    localStorage.setItem("data_"+ currentUser.id , JSON.stringify(data));
+};
+
+const getDataByUser = () => {
+    let data = localStorage.getItem("data_" + currentUser.id);
+    if (!data || data === "undefined") return [];
+    return JSON.parse(data);
+};
+
+
 let inputNew = document.getElementById("inputNewCategory");
 let inputNewDescription = document.getElementById("inputDescripton");
 let btn_Add = document.getElementById("btn_save");
 let errorAdd_v1 = document.getElementById("errorNewCate");
 let errorAdd_v2 = document.getElementById("errorDes");
+
 
 // logout
 let btnLogout = document.getElementById("btn_logout");
@@ -18,11 +30,19 @@ btnLogout.addEventListener("click", () => {
 });
 
 
-// data mặc định
-let categories = [
-    { id: "1", name: "animal", description: "Các từ vựng liên quan đến động vật" },
-    { id: "2", name: "plant", description: "Các từ vựng về thực vật và cây cối" }
-];
+let userData = getDataByUser();
+
+// kiểm tra dữ liệu user
+if (userData.length === 0) {
+    userData = [
+        { id: "1", name: "animal", description: "Các từ vựng liên quan đến động vật" },
+        { id: "2", name: "plant", description: "Các từ vựng về thực vật và cây cối" }
+    ];
+    saveDataForUser(userData);
+}
+
+let categories = [...userData];
+// copy toàn bộ phần tử của mảng userData sang mảng mới
 
 let currentList =categories;
 let pageSize = 2; 
@@ -127,18 +147,7 @@ document.getElementById("btn_cancelEditCategory").onclick = () => {
 document.getElementById("btn_cancelDeleteCategory").onclick = () => {
     document.getElementById("popUpDeleteCategory").style.display = "none";
 };
-// localStorage
-let saveData = () => {
-    localStorage.setItem("listCatagory", JSON.stringify(categories));
-};
 
-let getData = () => {
-    let data = localStorage.getItem("listCatagory");
-    if (data) {
-        categories = JSON.parse(data);
-    }
-};
-getData();
 
 // render
 let tableBody = document.getElementById("list_catagory");
@@ -196,15 +205,28 @@ window.openDelete = (id) => {
 
 // confirm delete
 document.getElementById("btn_ConfirmDeleteCategory").addEventListener("click", () => {
-    let index = categories.findIndex(c => c.id === currentId);
+    let index = userData.findIndex(c => c.id === currentId);
     
     if (index !== -1) {
-        categories.splice(index, 1);
+        userData.splice(index, 1);
+        saveDataForUser(userData);
     }
     
-    saveData();
+    
+    categories = [...userData];
     currentList = categories;
+    currentPage = 1;
     renderData(currentList);
+
+    //
+    Swal.fire({
+        icon: "success",
+        title: "Đã xóa!",
+        text: "Danh mục đã được xóa thành công",
+        timer: 1500,
+        
+    });
+
     document.getElementById("popUpDeleteCategory").style.display = "none";
 });
 
@@ -215,7 +237,7 @@ let inputDescription = document.getElementById("editInputDecription");
 let errorEdit_v1 = document.getElementById("errorEditCate");
 let errorEdit_v2 = document.getElementById("errorDesEdit");
 btn_confirmSave.addEventListener("click", () => {
-    let index = categories.findIndex(c => c.id === currentId);
+    let index = userData.findIndex(c => c.id === currentId);
     
     errorEdit_v1.innerText="";
     errorEdit_v2.innerText = "";
@@ -235,14 +257,23 @@ btn_confirmSave.addEventListener("click", () => {
 
     if (index === -1) return;
     
-    categories[index] = {
+    userData[index] = {
         id: currentId,
         name: inputEdit.value.trim(),
         description: inputDescription.value.trim(),
     };
     
-    saveData();
-    renderData(categories);
+    saveDataForUser(userData)
+    categories = [...userData];
+    currentList = categories;
+    renderData(currentList);
+
+    Swal.fire({
+        icon: "success",
+        title: "Cập nhật thành công!",
+        timer: 1500,
+        
+    });
     document.getElementById("popUpEdit").style.display = "none";
 });
 
@@ -289,9 +320,18 @@ btn_Add.addEventListener("click", () => {
         description: inputNewDescription.value.trim(),
     };
     
-    categories.push(newCategory);
-    saveData();
-    renderData(categories);
+    userData.push(newCategory);
+    saveDataForUser(userData);
+    categories = [...userData];
+    currentList = categories;
+    renderData(currentList);
+
+    Swal.fire({
+        icon: "success",
+        title: "Đã thêm mới!",
+        timer: 1500,
+        
+    });
     
     document.getElementById("popUpNewCategory").style.display = "none";
     
@@ -299,4 +339,3 @@ btn_Add.addEventListener("click", () => {
     inputNewDescription.value = "";
 });
 
-//phân trang

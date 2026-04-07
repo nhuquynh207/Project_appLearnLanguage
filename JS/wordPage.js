@@ -1,11 +1,60 @@
-let listCatagory = JSON.parse(localStorage.getItem("listCatagory")) ;
 let accounts = JSON.parse(localStorage.getItem("listAccount")) || [];
 let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+// lấy category 
+const getCategoryByUser = () => {
+    let data = localStorage.getItem("data_" + currentUser.id);
+    if (!data || data === "undefined") return [];
+    return JSON.parse(data);
+};
 
+let listCatagory = getCategoryByUser(); 
+
+// lưu word theo user
+const saveDataForUser =(data)=>{
+    localStorage.setItem("word_"+ currentUser.id , JSON.stringify(data));
+};
+
+const getDataByUser = () =>{
+    let data = localStorage.getItem("word_" + currentUser.id);
+    if (!data || data === "undefined") return [];
+    return JSON.parse(data);
+};
+
+let userData = getDataByUser();
+
+// kiểm tra dữ liệu user
+if (userData.length === 0) {
+    userData = [
+        {
+            id: "1",
+            word: "Cat",
+            meaning: "mèo",
+            categoryId: "animal",
+            example: "The cat is sleeping on the sofa."
+        },
+        {
+            id: "2",
+            word: "Dog",
+            meaning: "chó",
+            categoryId: "animal",
+            example: "My dog loves playing in the park."
+        }
+    ];
+    saveDataForUser(userData);
+}
+
+
+let words = [...userData];
+
+// logout
 let btnLogout = document.getElementById("btn_logout");
 
 btnLogout.addEventListener("click", () => {
+    if (!currentUser) {
+        alert("Bạn cần đăng nhập!");
+        window.location.href = "./login.html";
+    }
     if (confirm("Bạn có chắc muốn đăng xuất không ?")) {
         localStorage.removeItem("currentUser");
         alert("Đăng xuất thành công!");
@@ -13,16 +62,13 @@ btnLogout.addEventListener("click", () => {
     }
 });
 
+// popup
 let btn_openPopUp = document.querySelectorAll(".btn-open");
 let btn_closePopUp = document.querySelectorAll(".btn-close");
 
-// popup hiển thị
-
 btn_openPopUp.forEach(btn => {
     btn.addEventListener("click", (e) => {
-        let id = e.target.id;
-
-        if (id === "btn_addNewWord") {
+        if (e.target.id === "btn_addNewWord") {
             document.getElementById("popUpNewWord").style.display = "flex";
         }
     });
@@ -44,7 +90,7 @@ btn_closePopUp.forEach(btn => {
     });
 });
 
-// Cancel
+// cancel
 document.getElementById("btn_cancelAddNewWord").onclick = () => {
     errorAdd_v1.innerText = "";
     errorAdd_v2.innerText = "";
@@ -55,7 +101,6 @@ document.getElementById("btn_cancelAddNewWord").onclick = () => {
 };
 
 document.getElementById("btn_cancelEditWord").onclick = () => {
-    
     errorEdit_v1.innerText="";
     errorEdit_v2.innerText="";
     errorEdit_v3.innerText="";
@@ -66,37 +111,7 @@ document.getElementById("btn_cancelDeleteWord").onclick = () => {
     document.getElementById("popUpDeleteWord").style.display = "none";
 };
 
-
-let words = [
-    {
-        id: "1",
-        word: "Cat",
-        meaning: "mèo",
-        categoryId: "animal",
-        example: "The cat is sleeping on the sofa."
-    },
-    {
-        id: "2",
-        word: "Dog",
-        meaning: "chó",
-        categoryId: "animal",
-        example: "My dog loves playing in the park."
-    }
-];
-
-let saveData = () => {
-    localStorage.setItem("listWord", JSON.stringify(words));
-};
-
-let getData = () => {
-    let data = localStorage.getItem("listWord");
-    if (data) {
-        words = JSON.parse(data);
-    }
-};
-getData();
-
-
+// render
 let tableRenderData = document.getElementById("list_word");
 
 const renderData = (list) => {
@@ -119,8 +134,7 @@ const renderData = (list) => {
 
 renderData(words);
 
-// hiển thị popup sửa xóa
-
+// edit/delete popup
 let indexWord = null;
 
 let inputEditWord = document.getElementById("editInputWord");
@@ -145,15 +159,15 @@ let openDelete = (id) => {
 };
 
 // thêm mới
-
 let inputNewWord = document.getElementById("inputNewWord");
 let inputMeaningWord = document.getElementById("inputMeaningWord");
 let catagoryWord = document.getElementById("selectCategory");
 let btn_confirmAdd = document.getElementById("btn_saveNewWord");
 let select  = document.getElementById("editInputCategory");
 
+// ===== dùng category user =====
 const renderOptionAdd = () =>{
-    catagoryWord.innerHTML = `<option value="AllCategory">-- Tất cả --</option> `;
+    catagoryWord.innerHTML = `<option value="AllCategory">-- All Category --</option>`;
     
     listCatagory.forEach(c =>{
         let option = document.createElement("option");
@@ -161,7 +175,6 @@ const renderOptionAdd = () =>{
         option.innerText = c.name;
         catagoryWord.appendChild(option);
     });
-
 };
 
 renderOptionAdd();
@@ -170,7 +183,6 @@ let errorAdd_v1 = document.getElementById("InputwordAdd");
 let errorAdd_v2 = document.getElementById("InputMeaningAdd");
 let errorAdd_v3 = document.getElementById("selectAdd");
 
-
 btn_confirmAdd.addEventListener("click", () => {
     let wordNew = inputNewWord.value.trim();
     let meaning = inputMeaningWord.value.trim();
@@ -178,7 +190,6 @@ btn_confirmAdd.addEventListener("click", () => {
     errorAdd_v1.innerText = ""
     errorAdd_v2.innerText = ""
     errorAdd_v3.innerText = ""
-
 
     let isValid = true;
 
@@ -195,9 +206,10 @@ btn_confirmAdd.addEventListener("click", () => {
     if (catagoryWord.value === "AllCategory") {
         errorAdd_v3.innerText = "Phải chọn danh mục";
         isValid = false;
-    };
+    }
 
     if (!isValid) return;
+
     let newWord = {
         id: Date.now().toString(),
         word: wordNew,
@@ -206,9 +218,18 @@ btn_confirmAdd.addEventListener("click", () => {
         example: "Example",
     };
 
-    words.push(newWord);
-    saveData();
+    userData.push(newWord);
+    saveDataForUser(userData);
+
+    words = [...userData];
     renderData(words);
+
+    Swal.fire({
+        icon: "success",
+        title: "Đã thêm mới!",
+        timer: 1500,
+        
+    });
 
     document.getElementById("popUpNewWord").style.display = "none";
 
@@ -216,32 +237,39 @@ btn_confirmAdd.addEventListener("click", () => {
     inputMeaningWord.value = "";
 });
 
-// xóa
-
+// delete
 let btn_confirmDelete = document.getElementById("btn_ConfirmDeleteWord");
 
 btn_confirmDelete.addEventListener("click", () => {
-    let index = words.findIndex(w => w.id === indexWord);
+    let index = userData.findIndex(w => w.id === indexWord);
 
     if (index !== -1) {
-        words.splice(index, 1);
-        saveData();
+        userData.splice(index, 1);
+        saveDataForUser(userData);
+
+        words = [...userData];
         renderData(words);
     }
+
+    Swal.fire({
+        icon: "success",
+        title: "Đã xóa!",
+        text: "Danh mục đã được xóa thành công",
+        timer: 1500,
+        
+    });
 
     document.getElementById("popUpDeleteWord").style.display = "none";
 });
 
-// chỉnh sửa
-
+// edit
 let btn_editConfirm = document.getElementById("btn_saveEditWord");
 let errorEdit_v1 = document.getElementById("InputwordEdit");
 let errorEdit_v2 = document.getElementById("InputMeaningEdit");
 let errorEdit_v3 = document.getElementById("selectEdit");
 
-
 btn_editConfirm.addEventListener("click", () => {
-    let index = words.findIndex(w => w.id === indexWord);
+    let index = userData.findIndex(w => w.id === indexWord);
 
     errorEdit_v1.innerText="";
     errorEdit_v2.innerText="";
@@ -252,45 +280,44 @@ btn_editConfirm.addEventListener("click", () => {
     if (!inputEditWord.value.trim()) {
         errorEdit_v1.innerText= "Không được để trống";
         check=false;
-    };
+    }
 
     if (!inputEditMeaning.value.trim()) {
         errorEdit_v2.innerText= "Không được để trống";
         check=false;
     }
 
-    if ( !inputEditCategory.value) {
+    if (!inputEditCategory.value) {
         errorEdit_v3.innerText = "Phải chọn danh mục!"
         check=false;
-    };
-
-    if (!check) {
-        return;
     }
 
+    if (!check) return;
+
     if (index !== -1) {
-        words[index] = {
-            ...words[index],
+        userData[index] = {
+            ...userData[index],
             word: inputEditWord.value,
             meaning: inputEditMeaning.value,
             categoryId: inputEditCategory.value
         };
 
-        saveData();
+        saveDataForUser(userData);
+        words = [...userData];
         renderData(words);
-    }
+    };
+
+    Swal.fire({
+        icon: "success",
+        title: "Cập nhật thành công!",
+        timer: 1500,
+        
+    });
 
     document.getElementById("popUpEdit").style.display = "none";
-    Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500
-    });
 });
-//lọc
 
+// filter
 let searchByCatagories = document.getElementById("list_categories");
 
 searchByCatagories.addEventListener("change", () => {
@@ -304,8 +331,7 @@ searchByCatagories.addEventListener("change", () => {
     }
 });
 
-// tìm kiếm
-
+// search
 let inputSearchVocab = document.getElementById("inputSearchCate");
 
 inputSearchVocab.addEventListener("keyup", () => {
@@ -319,10 +345,9 @@ inputSearchVocab.addEventListener("keyup", () => {
     renderData(result);
 });
 
-
+// render select filter
 const renderOption = () => {
-
-    searchByCatagories.innerHTML = `<option value="AllCategory">-- Tất cả --</option>`;
+    searchByCatagories.innerHTML = `<option value="AllCategory">-- All Category --</option>`;
 
     listCatagory.forEach(c => {
         let option = document.createElement("option");
@@ -335,15 +360,13 @@ const renderOption = () => {
 renderOption();
 
 const renderOptionEdit = () =>{
-    select.innerHTML = `<option value="AllCategory">-- Tất cả --</option> `;
-    
+    select.innerHTML = `<option value="AllCategory">-- All Category --</option>`;
     listCatagory.forEach(c =>{
         let option = document.createElement("option");
         option.value = c.name;
         option.innerText = c.name;
         select.appendChild(option);
     });
-
 };
 
 renderOptionEdit();

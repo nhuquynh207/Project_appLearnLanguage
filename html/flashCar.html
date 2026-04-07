@@ -30,13 +30,13 @@
 
     <input class="filter" type="text" placeholder="All Categories">
 
-    <div class="card">
+    <div class="card" id="cardWord">
       No words available
     </div>
 
     <div class="controls">
       <button class="btn btn-blue">Previous</button>
-      <button class="btn btn-green">Mark as Learned</button>
+      <button class="btn btn-green" id="btnMark">Mark as Learned</button>
       <button class="btn btn-blue">Next</button>
     </div>
 
@@ -60,7 +60,7 @@
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="listLearned">
           
         </tbody>
       </table>
@@ -70,5 +70,7 @@
   <footer>
     © 2024 VocabApp. All rights reserved.
   </footer>
+
+  <script src="../JS/flashCard.js"></script>
 </body>
 </html>
